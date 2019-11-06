@@ -42,5 +42,41 @@ namespace AccessRPSService
             }
             return NewAccNo;
         }
+
+        public static bool IsPiggy(string accNo, string[] piggyAccServices)
+        {
+            string AccService1 = string.Empty;
+            string AccService2 = string.Empty;
+
+            AccService1 = piggyAccServices.Length > 0 ? piggyAccServices[0] : string.Empty;
+            AccService2 = piggyAccServices.Length > 1 ? piggyAccServices[1] : string.Empty;
+
+            if (accNo.Contains(AccService1) || accNo.Contains(AccService2))
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+        public static string GetAccountServiceType(string accNo, string[] piggyAccServices)
+        {
+            string AccService1 = string.Empty;
+            string AccService2 = string.Empty;
+
+            AccService1 = piggyAccServices.Length > 0 ? piggyAccServices[0] : string.Empty;
+            AccService2 = piggyAccServices.Length > 1 ? piggyAccServices[1] : string.Empty;
+
+            if (accNo.Contains(AccService1))
+            {
+                return AccService1;
+            }
+            else if(accNo.Contains(AccService2))
+            {
+                return AccService2;
+            }
+            return string.Empty;
+            
+        }
     }
 }

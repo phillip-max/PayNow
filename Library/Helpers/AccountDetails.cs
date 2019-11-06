@@ -98,7 +98,7 @@ namespace AccessRPSService
                         continue;
                     }                   
 
-                    this.GetAccountDetails(accountDetails, clientAccountInfo, notiAcc.AccountNumber, PiggyAccountServices);                    
+                    this.GetAccountDetails(accountDetails, clientAccountInfo, notiAcc.AccountNumber, notiAcc.IsPiggy, notiAcc.AccountServiceType);                    
 
                     if (MarginAccountServices.Contains(accountDetails.AccServiceType) 
                        || PiggyAccountServices.Contains(accountDetails.AccServiceType))
@@ -200,13 +200,11 @@ namespace AccessRPSService
             return clientAccountInfo.Tables[0].Rows.Count > 0;
         }
 
-        private void GetAccountDetails(AccountDetails accountDetails, System.Data.DataSet clientAccountInfo, string accNumber, string[] piggyServices)
+        private void GetAccountDetails(AccountDetails accountDetails, System.Data.DataSet clientAccountInfo, string accNumber, bool isPiggy, string accountServiceType)
         {
-            var accRow = clientAccountInfo.Tables[0].Rows[0];            
+            var accRow = clientAccountInfo.Tables[0].Rows[0];
 
-            string PiggyAccService = piggyServices.Contains(accNumber) ? piggyServices.FirstOrDefault(o => o.Contains(accNumber)) : string.Empty;
-
-            accountDetails.AccServiceType = string.IsNullOrEmpty(PiggyAccService) ? accRow.IsNull("AccServiceType") ? string.Empty : Convert.ToString(accRow["AccServiceType"]) : PiggyAccService;
+            accountDetails.AccServiceType = isPiggy ? accountServiceType : accRow.IsNull("AccServiceType") ? string.Empty : Convert.ToString(accRow["AccServiceType"]);
 
             accountDetails.ClientID = accRow.IsNull("ClientID") ? string.Empty : Convert.ToString(accRow["ClientID"]);
             accountDetails.AccountNo = accRow.IsNull("AccNo") ? string.Empty : Convert.ToString(accRow["AccNo"]);            

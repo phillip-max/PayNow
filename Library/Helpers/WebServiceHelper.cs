@@ -36,11 +36,13 @@ namespace AccessRPSService
                 {
                     NotificationAccount notificationAccount = new NotificationAccount();
 
+                    notificationAccount.IsPiggy = Util.IsPiggy(reader["TransactionText"].ToString(), PiggyAccServices);
                     notificationAccount.AccountNumber = Util.FormatAccountNumber(reader["TransactionText"].ToString(), PiggyAccServices);
-                    notificationAccount.AccountType = "CA"; //reader["AccServiceType"].ToString();
+                    notificationAccount.AccountServiceType = Util.GetAccountServiceType(reader["TransactionText"].ToString(), PiggyAccServices);
                     notificationAccount.AccountName = reader["AccountName"].ToString();
                     notificationAccount.AccountCurrency = reader["AccountCurrency"].ToString();
                     notificationAccount.Amount = reader["Amount"].ToString();
+
                     notificationAccounts.Add(notificationAccount);
                 }
                 return notificationAccounts;

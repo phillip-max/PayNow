@@ -22,6 +22,10 @@ namespace Library
 
         public string YourReference { get; set; }
 
-        public string TransactionText { get; set; }
+        public string TransactionText { get; set;  }
+
+        public bool IsPiggy { get; set; }
+
+        public string AccountServiceType { get; set; }
     }
 }
