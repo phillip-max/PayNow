@@ -23,20 +23,21 @@ namespace AccessRPSService
 
         public static string FormatAccountNumber(string accNo, string[] piggyAccServices)
         {
-            string AccService1 = string.Empty;
-            string AccService2 = string.Empty;           
+            if (piggyAccServices.Any(accNo.Contains))
+            {
+                foreach (var accservice in piggyAccServices)
+                {
+                    if (accNo.Contains(accservice))
+                    {
+                        accNo = accNo.Replace(accservice, "");
+                        break;
+                    }
+                }
+            }      
 
-             AccService1 = piggyAccServices.Length > 0 ? piggyAccServices[0] : string.Empty;
-             AccService2 = piggyAccServices.Length > 1 ? piggyAccServices[1] : string.Empty;
-
-            if (accNo.Contains(AccService1))
-                accNo = accNo.Replace(AccService1, "");
-            else if (accNo.Contains(AccService2))
-                accNo = accNo.Replace(AccService2, "");
-            
             string NewAccNo = accNo;
 
-            if(accNo.Length < 7)
+            if (accNo.Length < 7)
             {
                 NewAccNo = accNo.PadLeft(7, '0');
             }
@@ -45,38 +46,24 @@ namespace AccessRPSService
 
         public static bool IsPiggy(string accNo, string[] piggyAccServices)
         {
-            string AccService1 = string.Empty;
-            string AccService2 = string.Empty;
-
-            AccService1 = piggyAccServices.Length > 0 ? piggyAccServices[0] : string.Empty;
-            AccService2 = piggyAccServices.Length > 1 ? piggyAccServices[1] : string.Empty;
-
-            if (accNo.Contains(AccService1) || accNo.Contains(AccService2))
-            {
-                return true;
-            }
-            return false;
+            return piggyAccServices.Any(accNo.Contains);
         }
 
 
         public static string GetAccountServiceType(string accNo, string[] piggyAccServices)
-        {
-            string AccService1 = string.Empty;
-            string AccService2 = string.Empty;
-
-            AccService1 = piggyAccServices.Length > 0 ? piggyAccServices[0] : string.Empty;
-            AccService2 = piggyAccServices.Length > 1 ? piggyAccServices[1] : string.Empty;
-
-            if (accNo.Contains(AccService1))
+        { 
+            if (piggyAccServices.Any(accNo.Contains))
             {
-                return AccService1;
-            }
-            else if(accNo.Contains(AccService2))
-            {
-                return AccService2;
+                foreach (var accservice in piggyAccServices)
+                {
+                    if (accNo.Contains(accservice))
+                    {
+                        return accservice;
+                    }
+                }
             }
             return string.Empty;
-            
+
         }
     }
 }

@@ -96,7 +96,7 @@ namespace AccessRPSService
                     {
                         WebServiceHelper.UpdateUOBAccountStatus(notiAcc.AccountNumber, "N", "Account Number Not found");
                         continue;
-                    }                   
+                    }                  
 
                     this.GetAccountDetails(accountDetails, clientAccountInfo, notiAcc.AccountNumber, notiAcc.IsPiggy, notiAcc.AccountServiceType);                    
 

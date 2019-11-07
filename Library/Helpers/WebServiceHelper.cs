@@ -13,6 +13,8 @@ namespace AccessRPSService
 {
     public class WebServiceHelper
     {
+
+
         /// <summary>
         /// Get list of accounts for inserting the receipt records in RPS core system.
         /// </summary>
@@ -31,17 +33,17 @@ namespace AccessRPSService
                 SqlDataReader reader = command.ExecuteReader();
 
                 List<NotificationAccount> notificationAccounts = new List<NotificationAccount>();
-
                 while (reader.Read())
                 {
-                    NotificationAccount notificationAccount = new NotificationAccount();
-
-                    notificationAccount.IsPiggy = Util.IsPiggy(reader["TransactionText"].ToString(), PiggyAccServices);
-                    notificationAccount.AccountNumber = Util.FormatAccountNumber(reader["TransactionText"].ToString(), PiggyAccServices);
-                    notificationAccount.AccountServiceType = Util.GetAccountServiceType(reader["TransactionText"].ToString(), PiggyAccServices);
-                    notificationAccount.AccountName = reader["AccountName"].ToString();
-                    notificationAccount.AccountCurrency = reader["AccountCurrency"].ToString();
-                    notificationAccount.Amount = reader["Amount"].ToString();
+                    NotificationAccount notificationAccount = new NotificationAccount
+                    {
+                        IsPiggy = Util.IsPiggy(reader["TransactionText"].ToString(), PiggyAccServices),
+                        AccountNumber = Util.FormatAccountNumber(reader["TransactionText"].ToString(), PiggyAccServices),
+                        AccountServiceType = Util.GetAccountServiceType(reader["TransactionText"].ToString(), PiggyAccServices),
+                        AccountName = reader["AccountName"].ToString(),
+                        AccountCurrency = reader["AccountCurrency"].ToString(),
+                        Amount = reader["Amount"].ToString()
+                    };
 
                     notificationAccounts.Add(notificationAccount);
                 }
@@ -65,6 +67,12 @@ namespace AccessRPSService
             return insertCmd;
         }
         
+        /// <summary>
+        /// Update the account status.
+        /// </summary>
+        /// <param name="accountNo">Account Number</param>
+        /// <param name="isCreated">Receipt created or not</param>
+        /// <param name="rejectReason">Receipt reject reason</param>
         public static void UpdateUOBAccountStatus(string accountNo, string isCreated, string rejectReason)
         {
             try
@@ -81,7 +89,12 @@ namespace AccessRPSService
             }
         }
 
-
+        /// <summary>
+        /// Check the RPS receipt  blocking time, that blocking period we should not create the receipt.
+        /// </summary>
+        /// <param name="initMode">Init mode 1</param>
+        /// <param name="createdBy">Created by</param>
+        /// <returns></returns>
         public static bool CheckReceiptInsertTime(int initMode, string createdBy)
         {
             try
@@ -112,11 +125,18 @@ namespace AccessRPSService
             }
         }
 
+        /// <summary>
+        /// Get the account services based on the code type,code and company code.
+        /// </summary>
+        /// <param name="codeType">code type(Margin- MGNSVCTYPE)</param>
+        /// <param name="code">code(Margin- MGN)</param>
+        /// <param name="companyCode">PSPL</param>
+        /// <returns></returns>
         public static string[] AccountServices(string codeType, string code, string companyCode)
         {
             try
             {
-                string[] accountServices = null;
+                string[] accountServices = new string[] { };
                 string ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["Connection String"].ConnectionString;
 
                 using (SqlConnection con = new SqlConnection(ConnectionString))
@@ -127,8 +147,7 @@ namespace AccessRPSService
                         cmd.Parameters.AddWithValue("@iStrCodeType", codeType);
                         cmd.Parameters.AddWithValue("@iStrCode", code);
                         cmd.Parameters.AddWithValue("@iStrCompanyCode", companyCode);                        
-                        con.Open();
-                        //cmd.ExecuteNonQuery();
+                        con.Open();                       
                         SqlDataReader reader = cmd.ExecuteReader();
                         while(reader.Read())
                         {
