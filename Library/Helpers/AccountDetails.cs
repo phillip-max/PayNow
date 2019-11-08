@@ -85,6 +85,8 @@ namespace AccessRPSService
             {
                 foreach (var notiAcc in notificationAccounts)
                 {
+                    string AccountNumber = notiAcc.AccountNumber.Trim() + notiAcc.AccountServiceType.Trim();
+
                     AccountDetails accountDetails = new AccountDetails();
                     ClientDetails clientDetail = new ClientDetails();
 
@@ -94,7 +96,8 @@ namespace AccessRPSService
 
                     if (!this.ValidateClientAccount(clientAccountInfo))
                     {
-                        WebServiceHelper.UpdateUOBAccountStatus(notiAcc.AccountNumber, "N", "Account Number Not found");
+                        WebServiceHelper.UpdateUOBAccountStatus(AccountNumber, "N", "Account Number Not found",
+                                                               0, string.Empty);
                         continue;
                     }                  
 
@@ -159,7 +162,8 @@ namespace AccessRPSService
                                 {
                                     Receipt.SaveMe(db, transaction, 0, 0, "PayNowUser");
                                     transaction.Commit();
-                                    WebServiceHelper.UpdateUOBAccountStatus(notiAcc.AccountNumber, "Y", string.Empty);
+                                    WebServiceHelper.UpdateUOBAccountStatus(AccountNumber, "Y", 
+                                                         string.Empty,Receipt.ReceiptID, Receipt.ReceiptNumber);
                                 }
                                 catch (Exception ex)
                                 {

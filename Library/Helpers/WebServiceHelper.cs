@@ -56,13 +56,16 @@ namespace AccessRPSService
         }
 
 
-        protected static SqlCommand GetInsertCommand(SqlDatabase db, string accNumber, string isCreated, string rejectReason)
+        protected static SqlCommand GetInsertCommand(SqlDatabase db, string accNumber, string isCreated, 
+                                                     string rejectReason, long receiptID, string receiptNo)
         { 
             SqlCommand insertCmd = db.GetStoredProcCommand("Usp_Receipt_UpdateUOBAccoutStatus") as SqlCommand;
             //Add Parameters
             insertCmd.Parameters.AddWithValue("@iStrAccNo", accNumber);            
             insertCmd.Parameters.AddWithValue("@iStrCreated", isCreated);
             insertCmd.Parameters.AddWithValue("@iStrRejectReason", rejectReason);
+            insertCmd.Parameters.AddWithValue("@iIntReceiptID", receiptID);
+            insertCmd.Parameters.AddWithValue("@iStrReceiptNo", receiptNo);
             
             return insertCmd;
         }
@@ -73,12 +76,12 @@ namespace AccessRPSService
         /// <param name="accountNo">Account Number</param>
         /// <param name="isCreated">Receipt created or not</param>
         /// <param name="rejectReason">Receipt reject reason</param>
-        public static void UpdateUOBAccountStatus(string accountNo, string isCreated, string rejectReason)
+        public static void UpdateUOBAccountStatus(string accountNo, string isCreated, string rejectReason, long receiptID, string receiptNo)
         {
             try
             {
                 SqlDatabase db = DatabaseFactory.CreateDatabase() as SqlDatabase;               
-                using (SqlCommand insertCmd = GetInsertCommand(db, accountNo, isCreated, rejectReason))
+                using (SqlCommand insertCmd = GetInsertCommand(db, accountNo, isCreated, rejectReason, receiptID, receiptNo))
                 {
                     db.ExecuteNonQuery(insertCmd);
                 }
