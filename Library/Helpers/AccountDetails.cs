@@ -143,7 +143,7 @@ namespace AccessRPSService
                         {
                             if (Receipt.Accounts[0].Deposits.Count > 0)
                             {
-                                Receipt.Accounts[0].Deposits[0].Amount = Convert.ToDecimal(notiAcc.Amount);
+                                Receipt.Accounts[0].Deposits[0].Amount = Convert.ToDecimal(notiAcc.UsedAmount); //Convert.ToDecimal(notiAcc.Amount);
                             }
                         }
 
