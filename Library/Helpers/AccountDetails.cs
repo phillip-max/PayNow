@@ -113,12 +113,12 @@ namespace AccessRPSService
                         Receipt.Payments.Add(new Payment
                         {
                             BankCode = "UOB SGD",
-                            Amount = Convert.ToDecimal(notiAcc.Amount),
+                            Amount =  Convert.ToDecimal(notiAcc.Amount),
                             CurrCd = "SGD",
                             PaymentType = Enum.GetName(typeof(PaymentMode), 0),
                             SetlOption = "SGD",
                             RefBankCode = "UOB",
-                            UsedAmount = Convert.ToDecimal(notiAcc.Amount),
+                            UsedAmount = Convert.ToDecimal(notiAcc.UsedAmount),
                             RefText = "",
                             Is3rdPartyPayment = false,
                             IsRemisierPayment = false,
@@ -204,11 +204,13 @@ namespace AccessRPSService
             return clientAccountInfo.Tables[0].Rows.Count > 0;
         }
 
-        private void GetAccountDetails(AccountDetails accountDetails, System.Data.DataSet clientAccountInfo, string accNumber, bool isPiggy, string accountServiceType)
+        private void GetAccountDetails(AccountDetails accountDetails, System.Data.DataSet clientAccountInfo, 
+                                     string accNumber, bool isPiggy, string accountServiceType)
         {
             var accRow = clientAccountInfo.Tables[0].Rows[0];
 
-            accountDetails.AccServiceType = isPiggy ? accountServiceType : accRow.IsNull("AccServiceType") ? string.Empty : Convert.ToString(accRow["AccServiceType"]);
+            accountDetails.AccServiceType = isPiggy ? accountServiceType : accRow.IsNull("AccServiceType") ? string.Empty 
+                                            : Convert.ToString(accRow["AccServiceType"]);
 
             accountDetails.ClientID = accRow.IsNull("ClientID") ? string.Empty : Convert.ToString(accRow["ClientID"]);
             accountDetails.AccountNo = accRow.IsNull("AccNo") ? string.Empty : Convert.ToString(accRow["AccNo"]);            

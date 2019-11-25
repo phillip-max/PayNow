@@ -42,7 +42,9 @@ namespace AccessRPSService
                         AccountServiceType = Util.GetAccountServiceType(reader["TransactionText"].ToString(), PiggyAccServices),
                         AccountName = reader["AccountName"].ToString(),
                         AccountCurrency = reader["AccountCurrency"].ToString(),
-                        Amount = reader["Amount"].ToString()
+                        Amount = reader["Amount"] != DBNull.Value ? reader["Amount"].ToString() : decimal.Zero.ToString(),
+                        UsedAmount = reader["UsedAmount"] != DBNull.Value ? reader["UsedAmount"].ToString() : decimal.Zero.ToString(),                       
+
                     };
 
                     notificationAccounts.Add(notificationAccount);
@@ -59,7 +61,7 @@ namespace AccessRPSService
         protected static SqlCommand GetInsertCommand(SqlDatabase db, string accNumber, string isCreated, 
                                                      string rejectReason, long receiptID, string receiptNo)
         { 
-            SqlCommand insertCmd = db.GetStoredProcCommand("Usp_Receipt_UpdateUOBAccoutStatus") as SqlCommand;
+            SqlCommand insertCmd = db.GetStoredProcCommand("dbo.Usp_Receipt_UpdateUOBAccoutStatus") as SqlCommand;
             //Add Parameters
             insertCmd.Parameters.AddWithValue("@iStrAccNo", accNumber);            
             insertCmd.Parameters.AddWithValue("@iStrCreated", isCreated);
@@ -107,7 +109,7 @@ namespace AccessRPSService
 
                 using (SqlConnection con = new SqlConnection(ConnectionString))
                 {
-                    using (SqlCommand cmd = new SqlCommand("Usp_Receipt_CheckInsert", con))
+                    using (SqlCommand cmd = new SqlCommand("dbo.Usp_Receipt_CheckInsert", con))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@iintMode", initMode);
@@ -144,7 +146,7 @@ namespace AccessRPSService
 
                 using (SqlConnection con = new SqlConnection(ConnectionString))
                 {
-                    using (SqlCommand cmd = new SqlCommand("Usp_Setup_LookupCodes_Fetch", con))
+                    using (SqlCommand cmd = new SqlCommand("dbo.Usp_Setup_LookupCodes_Fetch", con))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@iStrCodeType", codeType);

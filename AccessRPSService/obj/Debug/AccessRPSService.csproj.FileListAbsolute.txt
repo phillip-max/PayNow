@@ -38,3 +38,4 @@ D:\Code\Receipt\PayNow\AccessRPSService\obj\Debug\AccessRPSService.csproj.CoreCo
 D:\Code\Receipt\PayNow\AccessRPSService\obj\Debug\AccessRPSService.csproj.CopyComplete
 D:\Code\Receipt\PayNow\AccessRPSService\obj\Debug\AccessRPSService.exe
 D:\Code\Receipt\PayNow\AccessRPSService\obj\Debug\AccessRPSService.pdb
+D:\Code\Receipt\PayNow\AccessRPSService\obj\Debug\AccessRPSService.csprojAssemblyReference.cache

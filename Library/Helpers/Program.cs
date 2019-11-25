@@ -13,9 +13,6 @@ namespace AccessRPSService
     {
         static void Main(string[] args)
         {
-
-
-
             // Right time for insert the Receipt
             if (WebServiceHelper.CheckReceiptInsertTime(1, "PayNowUser"))
             {

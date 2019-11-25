@@ -27,5 +27,7 @@ namespace Library
         public bool IsPiggy { get; set; }
 
         public string AccountServiceType { get; set; }
+
+        public string UsedAmount { get; set; }
     }
 }
