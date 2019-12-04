@@ -71,7 +71,9 @@ namespace AccessRPSService
         /// from that account number get the account details from core system and created the new receipt object.
         /// </summary>
         /// <param name="notificationAccounts"></param>
-        public void InsertReceiptDetails(List<NotificationAccount> notificationAccounts, string[] MarginAccountServices, string[] PiggyAccountServices)
+        public void InsertReceiptDetails(List<NotificationAccount> notificationAccounts, string[] MarginAccountServices,
+                                        string[] PiggyAccountServices, string[] LedgerAccountServices,
+                                        string[] LedgerBlockingTime)
         {
             COREInfo cOREInfo = new COREInfo();
             AuthHeader authHeader = new AuthHeader
@@ -99,11 +101,14 @@ namespace AccessRPSService
                         WebServiceHelper.UpdateUOBAccountStatus(AccountNumber, "N", "Account Number Not found",
                                                                0, string.Empty);
                         continue;
-                    }                  
+                    }
+                    if(LedgerAccountServices.Contains(accountDetails.AccServiceType) && !CanCreateLedgerReceipt(LedgerBlockingTime))
+                    {
+                        continue;
+                    }
+                    this.GetAccountDetails(accountDetails, clientAccountInfo, notiAcc.AccountNumber, notiAcc.IsPiggy, notiAcc.AccountServiceType);
 
-                    this.GetAccountDetails(accountDetails, clientAccountInfo, notiAcc.AccountNumber, notiAcc.IsPiggy, notiAcc.AccountServiceType);                    
-
-                    if (MarginAccountServices.Contains(accountDetails.AccServiceType) 
+                    if (MarginAccountServices.Contains(accountDetails.AccServiceType)
                        || PiggyAccountServices.Contains(accountDetails.AccServiceType))
                     {
                         var Receipt = new Receipt(DateTime.Today.ToString(FixedCodes.DateFormatDB),
@@ -113,7 +118,7 @@ namespace AccessRPSService
                         Receipt.Payments.Add(new Payment
                         {
                             BankCode = "UOB SGD",
-                            Amount =  Convert.ToDecimal(notiAcc.Amount),
+                            Amount = Convert.ToDecimal(notiAcc.Amount),
                             CurrCd = "SGD",
                             PaymentType = Enum.GetName(typeof(PaymentMode), 0),
                             SetlOption = "SGD",
@@ -148,7 +153,7 @@ namespace AccessRPSService
                         }
 
                         foreach (Account ac in Receipt.Accounts)
-                           foreach (Item item in ac.Deposits)
+                            foreach (Item item in ac.Deposits)
                                 item.SettleDirect(Receipt, Receipt.Payments);
 
                         try
@@ -162,8 +167,8 @@ namespace AccessRPSService
                                 {
                                     Receipt.SaveMe(db, transaction, 0, 0, "PayNowUser");
                                     transaction.Commit();
-                                    WebServiceHelper.UpdateUOBAccountStatus(AccountNumber, "Y", 
-                                                         string.Empty,Receipt.ReceiptID, Receipt.ReceiptNumber);
+                                    WebServiceHelper.UpdateUOBAccountStatus(AccountNumber, "Y",
+                                                         string.Empty, Receipt.ReceiptID, Receipt.ReceiptNumber);
                                 }
                                 catch (Exception ex)
                                 {
@@ -204,16 +209,16 @@ namespace AccessRPSService
             return clientAccountInfo.Tables[0].Rows.Count > 0;
         }
 
-        private void GetAccountDetails(AccountDetails accountDetails, System.Data.DataSet clientAccountInfo, 
+        private void GetAccountDetails(AccountDetails accountDetails, System.Data.DataSet clientAccountInfo,
                                      string accNumber, bool isPiggy, string accountServiceType)
         {
             var accRow = clientAccountInfo.Tables[0].Rows[0];
 
-            accountDetails.AccServiceType = isPiggy ? accountServiceType : accRow.IsNull("AccServiceType") ? string.Empty 
+            accountDetails.AccServiceType = isPiggy ? accountServiceType : accRow.IsNull("AccServiceType") ? string.Empty
                                             : Convert.ToString(accRow["AccServiceType"]);
 
             accountDetails.ClientID = accRow.IsNull("ClientID") ? string.Empty : Convert.ToString(accRow["ClientID"]);
-            accountDetails.AccountNo = accRow.IsNull("AccNo") ? string.Empty : Convert.ToString(accRow["AccNo"]);            
+            accountDetails.AccountNo = accRow.IsNull("AccNo") ? string.Empty : Convert.ToString(accRow["AccNo"]);
             accountDetails.ClientRefNo1 = accRow.IsNull("ClientRefNo1") ? string.Empty : Convert.ToString(accRow["ClientRefNo1"]);
             accountDetails.ClientRefNo2 = accRow.IsNull("ClientRefNo2") ? string.Empty : Convert.ToString(accRow["ClientRefNo2"]);
             accountDetails.ClientName = accRow.IsNull("ClientName") ? string.Empty : Convert.ToString(accRow["ClientName"]);
@@ -221,6 +226,34 @@ namespace AccessRPSService
             accountDetails.AeCd = accRow.IsNull("AeCd") ? string.Empty : Convert.ToString(accRow["AeCd"]);
             accountDetails.AeName = accRow.IsNull("AeName") ? string.Empty : Convert.ToString(accRow["AeName"]);
             accountDetails.AeRefNo = accRow.IsNull("AeRefNo") ? string.Empty : Convert.ToString(accRow["AeRefNo"]);
+        }
+
+        /// <summary>
+        /// Check the account service type is ledger.
+        /// If it is ledger we can't create receipt for if the date if fall in public holidays or weekends
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public bool CanCreateLedgerReceipt(string[] LedgerBlockingTime)
+        {
+            bool createReceipt = true;
+            bool isPublicHoliDay = WebServiceHelper.IsPublicHoliday(DateTime.Now.ToShortDateString());
+            TimeSpan start = TimeSpan.Parse(LedgerBlockingTime[0]);  // 5PM
+            TimeSpan end = TimeSpan.Parse(LedgerBlockingTime[1]);    // 12 AM
+            TimeSpan now = DateTime.Now.TimeOfDay;
+            if (isPublicHoliDay)
+            {
+                if (now >= start && now <= end)
+                    createReceipt = false;
+            }
+            else if (!isPublicHoliDay && DateTime.Now.DayOfWeek != DayOfWeek.Sunday
+                    && DateTime.Now.DayOfWeek != DayOfWeek.Saturday)
+            {
+                bool isBillPaymentCompleted = WebServiceHelper.CheckReceiptInsertTime(2, "PayNowUser");
+                if ((now >= start && now <= end) || !isBillPaymentCompleted)
+                    createReceipt = false;
+            }
+            return createReceipt;
         }
     }
 }

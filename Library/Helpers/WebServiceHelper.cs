@@ -137,11 +137,12 @@ namespace AccessRPSService
         /// <param name="code">code(Margin- MGN)</param>
         /// <param name="companyCode">PSPL</param>
         /// <returns></returns>
-        public static string[] AccountServices(string codeType, string code, string companyCode)
+        public static string[] AccountServices(string codeType, string code, string companyCode, out string[] blockingTime )
         {
             try
             {
                 string[] accountServices = new string[] { };
+                blockingTime = new string[] { };
                 string ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["Connection String"].ConnectionString;
 
                 using (SqlConnection con = new SqlConnection(ConnectionString))
@@ -156,12 +157,48 @@ namespace AccessRPSService
                         SqlDataReader reader = cmd.ExecuteReader();
                         while(reader.Read())
                         {
-                           accountServices = reader["Value1"].ToString().Split(',').ToArray();
+                           accountServices = reader.IsDBNull(3) ? new string[] { } : reader["Value1"].ToString().Split(',').ToArray();
+                           blockingTime = reader.IsDBNull(4) ? new string[] { } : reader["Value2"].ToString().Split(',').ToArray();
                         }
                         con.Close();                      
                     }
                 }
                 return accountServices;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }    
+
+
+        /// <summary>
+        /// Get the account services based on the code type,code and company code.
+        /// </summary>
+        /// <param name="codeType">code type(Margin- MGNSVCTYPE)</param>
+        /// <param name="code">code(Margin- MGN)</param>
+        /// <param name="companyCode">PSPL</param>
+        /// <returns></returns>
+        public static bool IsPublicHoliday(string currentDate)
+        {
+            try
+            {
+                
+                string ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["Connection String"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("dbo.Udf_CheckPublicHoliday", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@strDateInput", currentDate);
+                        SqlParameter returnValue = cmd.Parameters.Add("@RETURN_VALUE", SqlDbType.Bit);
+                        returnValue.Direction = ParameterDirection.ReturnValue;
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                        return Convert.ToBoolean(returnValue.Value);
+                    }
+                }                
             }
             catch (Exception ex)
             {
