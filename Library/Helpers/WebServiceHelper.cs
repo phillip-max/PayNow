@@ -43,8 +43,8 @@ namespace AccessRPSService
                         AccountName = reader["AccountName"].ToString(),
                         AccountCurrency = reader["AccountCurrency"].ToString(),
                         Amount = reader["Amount"] != DBNull.Value ? reader["Amount"].ToString() : decimal.Zero.ToString(),
-                        UsedAmount = reader["UsedAmount"] != DBNull.Value ? reader["UsedAmount"].ToString() : decimal.Zero.ToString(),                       
-
+                        UsedAmount = reader["UsedAmount"] != DBNull.Value ? reader["UsedAmount"].ToString() : decimal.Zero.ToString(),
+                        PayNowIndicator = reader["PayNowIndicator"] != DBNull.Value ? reader["PayNowIndicator"].ToString() : string.Empty
                     };
 
                     notificationAccounts.Add(notificationAccount);

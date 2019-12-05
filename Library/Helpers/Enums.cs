@@ -8,7 +8,8 @@ namespace Library.Helpers
 {
     enum PaymentMode
     {
-        PayNow
+        PAYNOW,
+        FAST
     }
 
 

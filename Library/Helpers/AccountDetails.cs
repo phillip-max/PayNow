@@ -120,7 +120,7 @@ namespace AccessRPSService
                             BankCode = "UOB SGD",
                             Amount = Convert.ToDecimal(notiAcc.Amount),
                             CurrCd = "SGD",
-                            PaymentType = Enum.GetName(typeof(PaymentMode), 0),
+                            PaymentType = notiAcc.PayNowIndicator.ToUpper() == "Y" ? Enum.GetName(typeof(PaymentMode), 0) : Enum.GetName(typeof(PaymentMode), 1),
                             SetlOption = "SGD",
                             RefBankCode = "UOB",
                             UsedAmount = Convert.ToDecimal(notiAcc.UsedAmount),

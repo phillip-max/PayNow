@@ -29,5 +29,7 @@ namespace Library
         public string AccountServiceType { get; set; }
 
         public string UsedAmount { get; set; }
+
+        public string PayNowIndicator { get; set; }
     }
 }
