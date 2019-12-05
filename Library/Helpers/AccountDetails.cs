@@ -241,15 +241,14 @@ namespace AccessRPSService
             TimeSpan start = TimeSpan.Parse(LedgerBlockingTime[0]);  // 5PM
             TimeSpan end = TimeSpan.Parse(LedgerBlockingTime[1]);    // 12 AM
             TimeSpan now = DateTime.Now.TimeOfDay;
-            if (isPublicHoliDay)
-            {
-                if (now >= start && now <= end)
-                    createReceipt = false;
+            if (isPublicHoliDay || DateTime.Now.DayOfWeek == DayOfWeek.Saturday || DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
+            {                
+               createReceipt = false;
             }
-            else if (!isPublicHoliDay && DateTime.Now.DayOfWeek != DayOfWeek.Sunday
-                    && DateTime.Now.DayOfWeek != DayOfWeek.Saturday)
+            else
             {
                 bool isBillPaymentCompleted = WebServiceHelper.CheckReceiptInsertTime(2, "PayNowUser");
+
                 if ((now >= start && now <= end) || !isBillPaymentCompleted)
                     createReceipt = false;
             }
