@@ -109,7 +109,7 @@ namespace AccessRPSService
                     this.GetAccountDetails(accountDetails, clientAccountInfo, notiAcc.AccountNumber, notiAcc.IsPiggy, notiAcc.AccountServiceType);
 
                     if (MarginAccountServices.Contains(accountDetails.AccServiceType)
-                       || PiggyAccountServices.Contains(accountDetails.AccServiceType))
+                       || PiggyAccountServices.Contains(accountDetails.AccServiceType) || LedgerAccountServices.Contains(accountDetails.AccServiceType))
                     {
                         var Receipt = new Receipt(DateTime.Today.ToString(FixedCodes.DateFormatDB),
                                   "PSPL", accountDetails.ClientName, accountDetails.ClientID, "",
