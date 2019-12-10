@@ -190,16 +190,16 @@ namespace AccessRPSService
                     }
 
                 }
-                //Send receipt data to sub systems as batch. 
+                //Send receipt data to subsystems as batch. 
                 //Let's say each batch we will have 100 receipts created, but we will only call the send to subsystem SP once
                 try
                 {
 
                     Receipt.SendNewDataToSubSystems(0, "PayNowUser");
                 }
-                catch
+                catch (Exception ex)
                 {
-
+                    throw ex;
                 }
             }
         }
