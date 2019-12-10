@@ -93,8 +93,8 @@ namespace AccessRPSService
                     ClientDetails clientDetail = new ClientDetails();
 
                     var clientAccountInfo = cOREInfo.GetAccountMasterInfo(38, "ACCNO",
-                                       new string[] { notiAcc.AccountNumber },
-                                       new string[] { notiAcc.AccountNumber });
+                                            new string[] { notiAcc.AccountNumber },
+                                            new string[] { notiAcc.AccountNumber });
 
                     if (!this.ValidateClientAccount(clientAccountInfo))
                     {
@@ -109,7 +109,8 @@ namespace AccessRPSService
                     this.GetAccountDetails(accountDetails, clientAccountInfo, notiAcc.AccountNumber, notiAcc.IsPiggy, notiAcc.AccountServiceType);
 
                     if (MarginAccountServices.Contains(accountDetails.AccServiceType)
-                       || PiggyAccountServices.Contains(accountDetails.AccServiceType) || LedgerAccountServices.Contains(accountDetails.AccServiceType))
+                       || PiggyAccountServices.Contains(accountDetails.AccServiceType) 
+                       || LedgerAccountServices.Contains(accountDetails.AccServiceType))
                     {
                         var Receipt = new Receipt(DateTime.Today.ToString(FixedCodes.DateFormatDB),
                                   "PSPL", accountDetails.ClientName, accountDetails.ClientID, "",
@@ -185,20 +186,19 @@ namespace AccessRPSService
                         catch (Exception ex)
                         {
                             throw ex;
-                        }
-                        //Send Data To Sub Systems    
-                        // Need to send subsystem to batch not single receipt.
-                        //if (Receipt.TransactionID > 0)
-                        //{
-                        //    long receiptID = Receipt.TransactionID;
-                        //    try
-                        //    {
-
-                        //        Receipt.SendNewDataToSubSystems(receiptID, "PayNowUser");
-                        //    }
-                        //    catch { }
-                        //}
+                        }                        
                     }
+
+                }
+                //Send receipt data to sub systems as batch. 
+                //Let's say each batch we will have 100 receipts created, but we will only call the send to subsystem SP once
+                try
+                {
+
+                    Receipt.SendNewDataToSubSystems(0, "PayNowUser");
+                }
+                catch
+                {
 
                 }
             }
