@@ -27,7 +27,7 @@ namespace AccessRPSService
                 string[] PiggyAccountServices = WebServiceHelper.AccountServices("PayNow", "PiggyBank", "PSPL", out piggyAccountBlockingTime);
                 string[] LedgerAccountServices = WebServiceHelper.AccountServices("LEDSVCTYPE", "LED", "PSPL", out ledgerAccountBlockingTime);
                 string[] NoNEquityAccountServices = WebServiceHelper.AccountServices("NONEQUITYACCSVCTYPE", "NONEQUITYACCSRVTYPE", "", out nonEquityAccountBlockingTime);                
-                string[] ExcludingAccountServices = WebServiceHelper.AccountServices("EXCLUDEACCTYPESUOB", "EXCLUDEACCTYPES", "", out ExcludingAccountTypesBlockingTime);
+                string[] ExcludingAccountServices = WebServiceHelper.AccountServices("EXCLUDEACCTYPESUOB", "EXCLUDEACCTYPES", "PSPL", out ExcludingAccountTypesBlockingTime);
 
 
                 List<NotificationAccount> accountDetails = WebServiceHelper.GetUOBPaidAccounts(PiggyAccountServices);
