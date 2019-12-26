@@ -130,7 +130,7 @@ namespace AccessRPSService
             insertCmd.Parameters.AddWithValue("@iIntPaymentNo", /*_linkPayment.RowNo*/ 1);
             insertCmd.Parameters.AddWithValue("@iStrSetlCurrCd", item.CurrCd);
             insertCmd.Parameters.AddWithValue("@iDecSetlAmount", _setlAmount);
-            insertCmd.Parameters.AddWithValue("@iStrUsedPaymentCurrCd", _paymentCurrCd);
+            insertCmd.Parameters.AddWithValue("@iStrUsedPaymentCurrCd", item.CurrCd /*_paymentCurrCd*/);
             insertCmd.Parameters.AddWithValue("@iDecUsedPaymentAmount", _usedPaymentAmount);
             insertCmd.Parameters.AddWithValue("@iDecExchRate1", _exchRate1);
             insertCmd.Parameters.AddWithValue("@iDecExchRate2", _exchRate2);
@@ -165,7 +165,7 @@ namespace AccessRPSService
 
         public virtual bool SettleDirect(Item item, Payment payment)
         {
-            _setlAmount = 100;
+            _setlAmount = payment.Amount;
 
             /*Contract contractItem = item as Contract;
             if (contractItem != null && (!contractItem.CurrCd.Equals(payment.CurrCd)))

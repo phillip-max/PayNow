@@ -44,7 +44,8 @@ namespace AccessRPSService
                         AccountCurrency = reader["AccountCurrency"].ToString(),
                         Amount = reader["Amount"] != DBNull.Value ? reader["Amount"].ToString() : decimal.Zero.ToString(),
                         UsedAmount = reader["UsedAmount"] != DBNull.Value ? reader["UsedAmount"].ToString() : decimal.Zero.ToString(),
-                        PayNowIndicator = reader["PayNowIndicator"] != DBNull.Value ? reader["PayNowIndicator"].ToString() : string.Empty
+                        PayNowIndicator = reader["PayNowIndicator"] != DBNull.Value ? reader["PayNowIndicator"].ToString() : string.Empty,
+                        TransactionText = reader["TransactionText"] != DBNull.Value ? reader["TransactionText"].ToString() : string.Empty
                     };
 
                     notificationAccounts.Add(notificationAccount);
@@ -58,12 +59,12 @@ namespace AccessRPSService
         }
 
 
-        protected static SqlCommand GetInsertCommand(SqlDatabase db, string accNumber, string isCreated, 
+        protected static SqlCommand GetInsertCommand(SqlDatabase db, string transactionText, string isCreated, 
                                                      string rejectReason, long receiptID, string receiptNo)
         { 
             SqlCommand insertCmd = db.GetStoredProcCommand("dbo.Usp_Receipt_UpdateUOBAccoutStatus") as SqlCommand;
             //Add Parameters
-            insertCmd.Parameters.AddWithValue("@iStrAccNo", accNumber);            
+            insertCmd.Parameters.AddWithValue("@iStrTranTxt", transactionText);            
             insertCmd.Parameters.AddWithValue("@iStrCreated", isCreated);
             insertCmd.Parameters.AddWithValue("@iStrRejectReason", rejectReason);
             insertCmd.Parameters.AddWithValue("@iIntReceiptID", receiptID);

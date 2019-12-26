@@ -48,7 +48,7 @@ namespace AccessRPSService
 
         public decimal AMLAlertAmount { get; set; } = decimal.Zero;
 
-        public bool isMarginAcct { get; set; } = false;
+        public bool IsMarginAcct { get; set; } = false;
 
 
         public PaymentList Payments
@@ -957,7 +957,7 @@ namespace AccessRPSService
                 SqlTransaction transaction = connection.BeginTransaction();
                 try
                 {
-                    using (SqlCommand cm = db.GetStoredProcCommand("Usp_Receipt_SendSettlementsToSubSystems_Testing") as SqlCommand)
+                    using (SqlCommand cm = db.GetStoredProcCommand("Usp_Receipt_SendSettlementsToSubSystems_Paynow") as SqlCommand)
                     {
                         cm.CommandTimeout = 300;//Convert.ToInt32(ConfigurationManager.AppSettings["ForceTimeout2"].ToString());
                         DateTime createdDateTime = DateTime.Now;
@@ -965,7 +965,7 @@ namespace AccessRPSService
                         cm.Parameters.AddWithValue("@iIntMode", mode); //Mode 1 --> New Receipts, Mode 2 --> Reverse receipt
                         cm.Parameters.AddWithValue("@iIntReceiptID", receiptID);
                         cm.Parameters.AddWithValue("@iStrSendBy", userID);
-                       // cm.Parameters.AddWithValue("@FetchFor", Enum.GetName(typeof(PaymentMode), 0));
+                        cm.Parameters.AddWithValue("@FetchFor", Enum.GetName(typeof(PaymentMode), 0));
                         //db.ExecuteNonQuery(cm, transaction);
                         int x = db.ExecuteNonQuery(cm);
                     }

@@ -26,7 +26,7 @@ namespace AccessRPSService.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://backoffice.dev.itsd/equity/WebServices/CMSWebService/COREInfo.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://10.30.105.146/Equity/WebServices/CMSWebservice/COREInfo.asmx")]
         public string AccessRPSService_itsd_dev_backoffice_COREInfo {
             get {
                 return ((string)(this["AccessRPSService_itsd_dev_backoffice_COREInfo"]));

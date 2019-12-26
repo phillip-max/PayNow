@@ -288,9 +288,9 @@ namespace AccessRPSService
             _aecd = ac.AeCd;
             _aename = ac.AeName;
             _accno = ac.AccNo;
-            _addressRefNo = ac.AddressRefNo;
-            
-            //_accsvctype = ac.AccServiceType;
+            _addressRefNo = ac.AddressRefNo;            
+            _accsvctype = ac.AccSvcType;
+
             //_hasledger = ac.IsLedgerBased;
             //_isMultiCurrency = ac.IsMultiCurrency;
             //_addressRefNo = ac.AddressRefNo;
