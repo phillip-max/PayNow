@@ -303,7 +303,7 @@ namespace AccessRPSService
             {
                 bool isBillPaymentCompleted = WebServiceHelper.CheckReceiptInsertTime(2, "PayNowUser");
 
-                if ((now >= start && now <= end) || isBillPaymentCompleted)
+                if ((now >= start && now <= end) || !isBillPaymentCompleted)
                     createReceipt = false;
             }
             return createReceipt;

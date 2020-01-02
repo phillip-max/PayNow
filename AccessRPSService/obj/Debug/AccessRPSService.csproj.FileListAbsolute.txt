@@ -34,8 +34,8 @@ D:\Code\Receipt\PayNow\AccessRPSService\bin\Debug\Microsoft.Practices.Enterprise
 D:\Code\Receipt\PayNow\AccessRPSService\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Validation.dll
 D:\Code\Receipt\PayNow\AccessRPSService\bin\Debug\Microsoft.Practices.ObjectBuilder.dll
 D:\Code\Receipt\PayNow\AccessRPSService\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Validation.xml
+D:\Code\Receipt\PayNow\AccessRPSService\obj\Debug\AccessRPSService.csprojAssemblyReference.cache
 D:\Code\Receipt\PayNow\AccessRPSService\obj\Debug\AccessRPSService.csproj.CoreCompileInputs.cache
 D:\Code\Receipt\PayNow\AccessRPSService\obj\Debug\AccessRPSService.csproj.CopyComplete
 D:\Code\Receipt\PayNow\AccessRPSService\obj\Debug\AccessRPSService.exe
 D:\Code\Receipt\PayNow\AccessRPSService\obj\Debug\AccessRPSService.pdb
-D:\Code\Receipt\PayNow\AccessRPSService\obj\Debug\AccessRPSService.csprojAssemblyReference.cache
