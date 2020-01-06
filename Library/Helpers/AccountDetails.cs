@@ -294,7 +294,7 @@ namespace AccessRPSService
             bool isPublicHoliDay = WebServiceHelper.IsPublicHoliday(DateTime.Now.ToShortDateString());
             TimeSpan start = TimeSpan.Parse(LedgerBlockingTime[0]);  // 5PM
             TimeSpan end =  TimeSpan.Parse(LedgerBlockingTime[1]);    // 12 AM
-            TimeSpan now = DateTime.Now.TimeOfDay.Add(new TimeSpan(0,100,0));
+            TimeSpan now = DateTime.Now.TimeOfDay;
             if (isPublicHoliDay || DateTime.Now.DayOfWeek == DayOfWeek.Saturday || DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
             {                
                createReceipt = false;
