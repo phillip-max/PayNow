@@ -1,17 +1,14 @@
-﻿using AccessRPSService.itsd.dev.backoffice;
-using Library;
-using Library.Helpers;
-using Microsoft.Practices.EnterpriseLibrary.Data;
+﻿using Microsoft.Practices.EnterpriseLibrary.Data;
 using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
+using PayNowReceiptsGeneration.CISAccountService;
+using PayNowReceiptsGeneration.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AccessRPSService
+namespace PayNowReceiptsGeneration
 {
     public class AccountDetails
     {
@@ -132,12 +129,12 @@ namespace AccessRPSService
                         Receipt.Payments.Add(new Payment
                         {
                             BankCode = "UOB SGD",
-                            Amount = Convert.ToDecimal(notiAcc.Amount),
+                            Amount = Convert.ToDecimal(notiAcc.Amount) - Convert.ToDecimal(notiAcc.UsedAmount),
                             CurrCd = "SGD",
                             PaymentType = notiAcc.PayNowIndicator.ToUpper() == "Y" ? Enum.GetName(typeof(PaymentMode), 0) : Enum.GetName(typeof(PaymentMode), 1),
                             SetlOption = "SGD",
                             RefBankCode = "UOB",
-                            UsedAmount = Convert.ToDecimal(notiAcc.UsedAmount),
+                            UsedAmount = Convert.ToDecimal(notiAcc.Amount) - Convert.ToDecimal(notiAcc.UsedAmount),
                             RefText = "",
                             Is3rdPartyPayment = false,
                             IsRemisierPayment = false,
@@ -162,7 +159,8 @@ namespace AccessRPSService
                         {
                             if (Receipt.Accounts[0].Deposits.Count > 0)
                             {
-                                Receipt.Accounts[0].Deposits[0].Amount = Convert.ToDecimal(notiAcc.UsedAmount); //Convert.ToDecimal(notiAcc.Amount);
+                               // Convert.ToDecimal(notiAcc.Amount) -
+                                Receipt.Accounts[0].Deposits[0].Amount = Convert.ToDecimal(notiAcc.Amount) - Convert.ToDecimal(notiAcc.UsedAmount);
                             }
                         }
 

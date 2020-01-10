@@ -1,16 +1,12 @@
 ﻿using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using Simple;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 using Microsoft.Practices.EnterpriseLibrary.Validation.Validators;
-using Library.Helpers;
+using PayNowReceiptsGeneration.Helpers;
 
-namespace AccessRPSService
+namespace PayNowReceiptsGeneration
 {
     public class Account : SimpleBase<Account>
     {

@@ -1,0 +1,16 @@
+D:\Code\Receipt\PayNow\Library\obj\Debug\PayNowReceiptsGeneration.exe.config
+D:\Code\Receipt\PayNow\Library\obj\Debug\PayNowReceiptsGeneration.csproj.CoreCompileInputs.cache
+D:\Code\Receipt\PayNow\Library\bin\Debug\PayNowReceiptsGeneration.exe.config
+D:\Code\Receipt\PayNow\Library\bin\Debug\PayNowReceiptsGeneration.exe
+D:\Code\Receipt\PayNow\Library\bin\Debug\PayNowReceiptsGeneration.pdb
+D:\Code\Receipt\PayNow\Library\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\Code\Receipt\PayNow\Library\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll
+D:\Code\Receipt\PayNow\Library\bin\Debug\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.dll
+D:\Code\Receipt\PayNow\Library\bin\Debug\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.dll
+D:\Code\Receipt\PayNow\Library\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Logging.Database.dll
+D:\Code\Receipt\PayNow\Library\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Logging.dll
+D:\Code\Receipt\PayNow\Library\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Validation.dll
+D:\Code\Receipt\PayNow\Library\bin\Debug\Microsoft.Practices.ObjectBuilder2.dll
+D:\Code\Receipt\PayNow\Library\obj\Debug\PayNowReceiptsGeneration.csproj.CopyComplete
+D:\Code\Receipt\PayNow\Library\obj\Debug\PayNowReceiptsGeneration.exe
+D:\Code\Receipt\PayNow\Library\obj\Debug\PayNowReceiptsGeneration.pdb

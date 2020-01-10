@@ -4,7 +4,7 @@
 //using System.Text;
 //using System.Threading.Tasks;
 
-//namespace AccessRPSService
+//namespace PayNowReceiptsGeneration
 //{
 //    public class ExchRateInfo : Csla.ReadOnlyBase<ExchRateInfo>
 //    {

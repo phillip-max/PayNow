@@ -1,12 +1,8 @@
 ﻿using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Simple;
-namespace AccessRPSService
+namespace PayNowReceiptsGeneration
 {
     public class Settlement : SimpleBase<Settlement>
     {
@@ -166,61 +162,30 @@ namespace AccessRPSService
         public virtual bool SettleDirect(Item item, Payment payment)
         {
             _setlAmount = payment.Amount;
+            _usedPaymentAmount = payment.Amount;
+            //if (item.CurrCd.Equals(payment.CurrCd) && payment.OSAmount > 0M)
+            //{
+            //    _linkPayment = payment;
+            //    _paymentCurrCd = payment.CurrCd;
 
-            /*Contract contractItem = item as Contract;
-            if (contractItem != null && (!contractItem.CurrCd.Equals(payment.CurrCd)))
-            {
-                if (contractItem.TrnSetlCurrCd.Equals(payment.CurrCd) && payment.OSAmount > 0M)
-                {
-                    _linkPayment = payment;
-                    _paymentCurrCd = payment.CurrCd;
+            //    decimal itemOSAmount = item.OutstandingAmount;
+            //    decimal paymentOSAmount = payment.OSAmount;
 
-                    decimal itemOSAmount = contractItem.OutstandingAmount;
-                    decimal itemOSAmtInSetlCurrCd = contractItem.TrnSetlAmount - Util.Truncate(contractItem.SetlAmount * contractItem.TrnSetlExchRate, 2);
-                    decimal paymentOSAmount = payment.OSAmount;
-
-                    //Payment's OS is more than item amount
-                    if (itemOSAmtInSetlCurrCd < paymentOSAmount)
-                    {
-                        _setlAmount = itemOSAmount;
-                        _usedPaymentAmount = itemOSAmtInSetlCurrCd;
-                        payment.UsedAmount += _usedPaymentAmount;
-                    }
-                    //Payment's OS is less than or equal to item amount
-                    else
-                    {
-                        _setlAmount = Util.Truncate(paymentOSAmount / contractItem.TrnSetlExchRate, 2);
-                        _usedPaymentAmount = paymentOSAmount;
-                        payment.UsedAmount = payment.UsableAmount;
-                    }
-                }
-                return (_setlAmount > 0);
-            }
-            else
-            {*/
-            if (item.CurrCd.Equals(payment.CurrCd) && payment.OSAmount > 0M)
-            {
-                _linkPayment = payment;
-                _paymentCurrCd = payment.CurrCd;
-
-                decimal itemOSAmount = item.OutstandingAmount;
-                decimal paymentOSAmount = payment.OSAmount;
-
-                //Payment's OS is more than item amount
-                if (itemOSAmount < paymentOSAmount)
-                {
-                    _setlAmount = _usedPaymentAmount = itemOSAmount;
-                    payment.UsedAmount += _usedPaymentAmount;
-                }
-                //Payment's OS is less than or equal to item amount
-                else
-                {
-                    _setlAmount = _usedPaymentAmount = paymentOSAmount;
-                    payment.UsedAmount = payment.UsableAmount;
-                }
-            }
-            return (_setlAmount > 0);
+            //    //Payment's OS is more than item amount
+            //    if (itemOSAmount < paymentOSAmount)
+            //    {
+            //        _setlAmount = _usedPaymentAmount = itemOSAmount;
+            //        payment.UsedAmount += _usedPaymentAmount;
+            //    }
+            //    //Payment's OS is less than or equal to item amount
+            //    else
+            //    {
+            //        _setlAmount = _usedPaymentAmount = paymentOSAmount;
+            //        payment.UsedAmount = payment.UsableAmount;
+            //    }
             //}
+            return (_setlAmount > 0);
+           
         }
 
         /// <summary>
@@ -272,236 +237,7 @@ namespace AccessRPSService
                 }
             }
             return result;
-        }
-
-        //public virtual bool SettleWithConversion(Item item, Payment payment, Dictionary<string, ExchRateInfo> exchRates)
-        //{
-        //    /*--------------------------------------------------------------------------------------------
-        //     * DATE             Author        Comment
-        //     * -------------------------------------------------------------------------------------------
-        //     *                  JAW           Created
-        //     *  07-Jul-08       SWAP          Modofied to romove the validation for setled currency
-        //     * -----------------------------------------------------------------------------------------*/
-
-        //    if (payment.OSAmount > 0)
-        //    {
-        //        if (!item.CurrCd.Equals(payment.CurrCd))
-        //        {
-        //            _linkPayment = payment;
-        //            _paymentCurrCd = payment.CurrCd;
-
-        //            Contract contract = item as Contract;
-
-        //            // If it is contract
-        //            //
-        //            ////Swapna 07/Jul/08-Removed to use SetlAmt instead of AmtOs as OutStanding amount
-        //            //
-        //            ////if (contract != null && contract.TrnSetlCurrCd.Equals(payment.CurrCd))
-        //            ////{
-        //            ////    _exchRate1Key = string.Format("{0}:{1}", payment.CurrCd, item.CurrCd);
-        //            ////    _exchRate2Key = string.Empty;
-        //            ////    //Exchange Rate 2 is one
-        //            ////    _exchRate1 = Util.Truncate(decimal.Divide(decimal.One, contract.TrnSetlExchRate), FixedCodes.ExchRateDecimalPoints);
-        //            ////    _exchRate2 = decimal.One;
-        //            ////}
-        //            //
-        //            SetExchangeRate(item, payment, exchRates);
-
-        //            decimal paymentOSAmount = payment.OSAmount;
-        //            decimal paymentOSAmountInPaymentCurr = payment.OSAmount;
-
-        //            Deposit deposit = item as Deposit;
-        //            if (deposit != null && deposit.IsSystemAutoDeposit)
-        //            {
-        //                //[WAI] + [RPS00055]+ Converts rates as per setup exchange rates.
-        //                //Payment Item
-        //                decimal paymentOSinItemCurrcd = Util.Truncate(ConvertRates(paymentOSAmount, true), 2);
-        //                _setlAmount = paymentOSinItemCurrcd;
-        //                _usedPaymentAmount = paymentOSAmount;
-        //                payment.UsedAmount += paymentOSAmount;
-        //            }
-        //            else
-        //            {
-        //                decimal itemOSAmount = item.OutstandingAmount;
-
-        //                //Calculate OS amount in payment currcd
-        //                //[WAI] + [RPS00055]+ Converts rates as per setup exchange rates.
-        //                //Receipt Item
-        //                decimal itemOSinPaymentCurrCd = Util.Truncate(ConvertRates(itemOSAmount, false), 2);
-
-        //                //If payment is enough
-        //                if (itemOSinPaymentCurrCd <= paymentOSAmount)
-        //                {
-        //                    _setlAmount = itemOSAmount;
-        //                    _usedPaymentAmount = itemOSinPaymentCurrCd;
-        //                    payment.UsedAmount += itemOSinPaymentCurrCd;
-        //                }
-        //                //If paymnet isn't enough
-        //                else if (itemOSinPaymentCurrCd > paymentOSAmount)
-        //                {
-        //                    //[WAI] + [RPS00055]+ Converts rates as per setup exchange rates.
-        //                    //PaymentItem Item
-        //                    decimal paymentOSinItemCurrcd = Util.Truncate(ConvertRates(paymentOSAmount, true), 2);
-        //                    _setlAmount = paymentOSinItemCurrcd;
-        //                    _usedPaymentAmount = paymentOSAmount;
-        //                    payment.UsedAmount += paymentOSAmount;
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return (_setlAmount > 0);
-        //}
-
-        //private void SetExchangeRate(Item item, Payment payment, Dictionary<string, ExchRateInfo> exchRates)
-        //{
-        //    // 1 Rate conversion
-        //    if (payment.CurrCd.Equals(FixedCodes.BaseCurrencyCode) ||
-        //        item.CurrCd.Equals(FixedCodes.BaseCurrencyCode))/* ||
-        //        payment.CurrCd.Equals(FixedCodes.USDCurrencyCode) ||
-        //        item.CurrCd.Equals(FixedCodes.USDCurrencyCode)) */
-        //                                                        //Conversion to USD not required
-        //    {
-        //        //Key of the exchange rate for later validation purpose
-        //        _exchRate1Key = string.Format("{0}:{1}", payment.CurrCd, item.CurrCd);
-        //        _exchRate2Key = string.Empty;
-
-        //        //Exchange Rate 2 is one
-        //        _exchRate2 = decimal.One;
-
-        //        //Check for existance of user edited rate
-        //        //If there is one, make use it
-        //        if (item.CustomeExchangeRates.ContainsKey(_exchRate1Key))
-        //            _exchRate1 = item.CustomeExchangeRates[_exchRate1Key];
-        //        else if (item is Deposit && payment.CustomeExchangeRates.ContainsKey(_exchRate1Key))
-        //            _exchRate1 = payment.CustomeExchangeRates[_exchRate1Key];
-        //        //Make use default rates
-        //        else
-        //        {
-        //            ExchRateInfo rate = null;
-
-        //            //Find direct XX$->SGD/USD rate
-        //            if (item.CurrCd.Equals(FixedCodes.BaseCurrencyCode))// || item.CurrCd.Equals(FixedCodes.USDCurrencyCode))
-        //            {
-        //                rate = exchRates[payment.CurrCd];
-        //                //_exchRate1 = (item.CurrCd.Equals(FixedCodes.BaseCurrencyCode)) ? rate.BaseRateLow : rate.USDRateLow;
-        //                _exchRate1 = rate.BaseRateLow;
-        //            }
-
-        //            //If there is no direct conversion
-        //            //Use reverse rate
-        //            if (rate == null)
-        //            {
-        //                //Get the rate of XX$ -> SGD/USD
-        //                rate = exchRates[item.CurrCd];
-        //                //_exchRate1 = (payment.CurrCd.Equals(FixedCodes.BaseCurrencyCode)) ? rate.BaseRateHigh : rate.USDRateHigh;
-        //                _exchRate1 = rate.BaseRateHigh;
-
-        //                //Convert to SGD/USD -> XX$ rate
-        //                //[WAI] + [RPS00055] + Commented below line not to use inverse rate in order to use rate from setup
-        //                //_exchRate1 = decimal.Divide(decimal.One, _exchRate1);
-
-        //                //Truncate 9 decimal places
-        //                _exchRate1 = Util.Truncate(_exchRate1, FixedCodes.ExchRateDecimalPoints);
-        //            }
-        //        }
-        //    }//End of 1Rate conversion
-
-            //decimal paymentOSAmount = payment.OSAmount;
-            //decimal itemOSAmount = item.OutstandingAmount;
-
-            ////Calculate OS amount in payment currcd
-            //decimal itemOSinPaymentCurrCd = Util.Truncate(itemOSAmount / _exchRate1, 2);                        
-
-            ////If payment is enough
-            //if (itemOSinPaymentCurrCd <= paymentOSAmount)
-            //{
-            //    _setlAmount = itemOSAmount;
-            //    _usedPaymentAmount = itemOSinPaymentCurrCd;
-            //    payment.UsedAmount += itemOSinPaymentCurrCd;
-            //}
-            ////If paymnet isn't enough
-            //else if(itemOSinPaymentCurrCd > paymentOSAmount)
-            //{
-            //    decimal paymentOSinItemCurrcd = Util.Truncate(paymentOSAmount * _exchRate1, 2);
-            //    _setlAmount = paymentOSinItemCurrcd;
-            //    _usedPaymentAmount = paymentOSAmount;
-            //    payment.UsedAmount += paymentOSAmount;
-            //}
-
-
-        //    // 2 Rates conversion
-        //    else
-        //    {
-        //        //Key of the exchange rate for later validation purpose
-        //        //_exchRate1Key = string.Format("{0}:{1}", payment.CurrCd, FixedCodes.USDCurrencyCode);
-        //        //Cross currency - Use SGD instead of USD
-        //        _exchRate1Key = string.Format("{0}:{1}", payment.CurrCd, FixedCodes.BaseCurrencyCode);
-
-        //        //Check in user edited rates
-        //        if (payment.CustomeExchangeRates.ContainsKey(_exchRate1Key))
-        //            _exchRate1 = payment.CustomeExchangeRates[_exchRate1Key];
-        //        //Fetch from setup rates
-        //        else
-        //        {
-        //            //Get the rate of XX$ -> USD
-        //            ExchRateInfo rate = exchRates[payment.CurrCd];
-        //            //_exchRate1 = rate.USDRateLow;
-        //            _exchRate1 = rate.BaseRateLow;
-        //        }
-
-        //        //Key of the exchange rate for later validation purpose
-        //        //_exchRate2Key = string.Format("{0}:{1}", FixedCodes.USDCurrencyCode, item.CurrCd);
-        //        //Cross currency - Use SGD instead of USD
-        //        _exchRate2Key = string.Format("{0}:{1}", FixedCodes.BaseCurrencyCode, item.CurrCd);
-
-        //        //Check in user edited rates
-        //        if (payment.CustomeExchangeRates.ContainsKey(_exchRate2Key))
-        //            _exchRate2 = payment.CustomeExchangeRates[_exchRate2Key];
-        //        //Fetch from setup rates
-        //        else
-        //        {
-        //            //Get the rate of XX$ -> USD
-        //            ExchRateInfo rate = exchRates[item.CurrCd];
-        //            //_exchRate2 = rate.USDRateHigh;
-        //            _exchRate2 = rate.BaseRateHigh;
-
-        //            //Convert to SGD/USD -> XX$ rate
-        //            //[WAI] + [RPS00055] + Commented below line not to use inverse rate in order to use rate from setup
-        //            //_exchRate2 = decimal.Divide(decimal.One, _exchRate2);
-
-        //            //Truncate 9 decimal places
-        //            _exchRate2 = Util.Truncate(_exchRate2, FixedCodes.ExchRateDecimalPoints);
-        //        }
-        //    }//End of 2Rates conversion
-        //}
-
-        //public void SetItemOSInPaymentCurr(Item item, Payment payment, Dictionary<string, ExchRateInfo> exchRates)
-        //{
-        //    /*--------------------------------------------------------------------------------------------
-        //     * DATE             Author        Comment
-        //     * -------------------------------------------------------------------------------------------
-        //     *  17-Sep-13       WAI          Calculate Payment Balance in Payment Currency (Exchange rate conversion logic copy from SettleWithConversion method)
-        //     * -----------------------------------------------------------------------------------------*/
-
-
-        //    if (!item.CurrCd.Equals(payment.CurrCd) && !string.IsNullOrEmpty(payment.CurrCd))
-        //    {
-        //        Contract contract = item as Contract;
-        //        if (contract != null)
-        //        {
-        //            SetExchangeRate(item, payment, exchRates);
-
-        //            if (item.CurrCd == payment.SetlOption || string.IsNullOrEmpty(payment.SetlOption))
-        //            {
-        //                //Calculate OS amount in payment currcd
-        //                //[WAI] + [RPS00055]+ Converts rates as per setup exchange rates.
-        //                //Receipt Item
-        //                decimal itemOSinPaymentCurrCd = Util.Truncate(ConvertRates(contract.TrnAmount, false), 2);
-        //                payment.ItemTotalAmtInPayCurr += itemOSinPaymentCurrCd;
-        //            }
-        //        }
-        //    }
-        //}
+        }       
     }
 
     [Serializable]

@@ -3,11 +3,8 @@ using Simple;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AccessRPSService
+namespace PayNowReceiptsGeneration
 {
     public abstract class Item : SimpleBase<Item>
     {

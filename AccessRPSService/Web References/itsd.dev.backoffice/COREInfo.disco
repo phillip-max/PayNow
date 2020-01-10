@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
-  <contractRef ref="http://backoffice.dev.itsd/equity/WebServices/CMSWebService/COREInfo.asmx?wsdl" docRef="http://backoffice.dev.itsd/equity/WebServices/CMSWebService/COREInfo.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
-  <soap address="http://backoffice.dev.itsd/equity/WebServices/CMSWebService/COREInfo.asmx" xmlns:q1="http://CMS.org/CMS/CMSInfo" binding="q1:COREInfoSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
-  <soap address="http://backoffice.dev.itsd/equity/WebServices/CMSWebService/COREInfo.asmx" xmlns:q2="http://CMS.org/CMS/CMSInfo" binding="q2:COREInfoSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
-</discovery>
