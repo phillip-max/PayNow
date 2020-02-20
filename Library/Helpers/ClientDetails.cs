@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 namespace PayNowReceiptsGeneration
 {
     public class ClientDetails
-    {
-        //ClientID, ClientType, ClientName, ClientRefNo, StatusInd, FamilyName, Title, Sex, Gst, DOB, Nationality,
-        //PRStatus, Occupation, EmployerName, ModifiedDate, AccCreationDate, BankCd, BankName, BnkAccNo, BnkBranchCd, BankBranchName, AnnualIncome
+    {      
 
         public string ClientID { get; set; }
         public string ClientType { get; set; }

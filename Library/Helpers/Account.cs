@@ -19,8 +19,7 @@ namespace PayNowReceiptsGeneration
         private bool _hasledger;
         private bool _isMultiCurrency;
         private string[] _ledgerCurrencies = null;
-        private string _addressRefNo;
-        private bool _isGstChargeable;
+        private string _addressRefNo;      
 
         private ItemList _miscentry = new ItemList();
         private ItemList _utContracts = new ItemList();
@@ -190,77 +189,7 @@ namespace PayNowReceiptsGeneration
                 };// Venkat RPS00037 18/08/2010
                 // Venkat RPS00036 10/11/2010
             }
-        }
-
-        //public SortedList<string, decimal> TotalAmounts
-        //{
-        //    get
-        //    {
-        //        SortedList<string, decimal> list = new SortedList<string, decimal>();
-        //        foreach (ItemList itemlist in Items)
-        //        {
-        //            foreach (Item item in itemlist)
-        //            {
-        //                //[WAI]+[RPS0005]+Calculate TotalAmounts from TrnAmount instead of Amount becuase Amount is overwrite in Settlement for CA.
-        //                //The reason is Item Total is not correctly shown in Balance section of receipt UI page.
-        //                if (item.ItemType == FixedCodes.ItemTypes.CAContract)
-        //                {
-        //                    if (item.IsValid)
-        //                        if (list.ContainsKey(item.CurrCd))
-        //                            list[item.CurrCd] += (item as CAContract).TrnAmount;
-        //                        else
-        //                            list.Add(item.CurrCd, (item as CAContract).TrnAmount);
-        //                }
-        //                else
-        //                {
-        //                    if (item.IsValid)
-        //                        if (list.ContainsKey(item.CurrCd))
-        //                            list[item.CurrCd] += item.Amount;
-        //                        else
-        //                            list.Add(item.CurrCd, item.Amount);
-        //                }
-        //            }
-        //        }
-        //        return list;
-        //    }
-        //}
-
-        //public string TotalAmountString
-        //{
-        //    get
-        //    {
-        //        //Amounts
-        //        SortedList<string, decimal> amts = TotalAmounts;
-        //        StringBuilder strbuilder = new StringBuilder();
-        //        for (int j = 0; j < amts.Count; j++)
-        //        {
-        //            if (strbuilder.Length > 0)
-        //                strbuilder.Append(", ");
-        //            strbuilder.Append(string.Format("{0} {1}", amts.Keys[j], amts.Values[j].ToString("N2")));
-        //        }
-        //        return strbuilder.ToString();
-        //    }
-        //}
-
-        //public SortedList<string, decimal> OSAmounts
-        //{
-        //    get
-        //    {
-        //        SortedList<string, decimal> list = new SortedList<string, decimal>();
-        //        foreach (ItemList itemlist in Items)
-        //        {
-        //            SortedList<string, decimal> totalOSAmounts = itemlist.TotalOutstandingAmounts;
-        //            foreach (string currcd in totalOSAmounts.Keys)
-        //            {
-        //                if (list.ContainsKey(currcd))
-        //                    list[currcd] += totalOSAmounts[currcd];
-        //                else
-        //                    list.Add(currcd, totalOSAmounts[currcd]);
-        //            }
-        //        }
-        //        return list;
-        //    }
-        //}
+        }       
 
         #endregion
 
@@ -285,96 +214,11 @@ namespace PayNowReceiptsGeneration
             _aename = ac.AeName;
             _accno = ac.AccNo;
             _addressRefNo = ac.AddressRefNo;            
-            _accsvctype = ac.AccSvcType;
-
-            //_hasledger = ac.IsLedgerBased;
-            //_isMultiCurrency = ac.IsMultiCurrency;
-            //_addressRefNo = ac.AddressRefNo;
-            //_isGstChargeable = ac.IsGSTChargeable;
-
-            /*New Comment*/
-
-            //foreach (EBO.RPS.Library.Search.Contract contract in ac.UTContractsList)
-            //{
-            //    _utContracts.Add(new UTContract(contract.TrnReference,
-            //                                    contract.TrnDescription,
-            //                                    contract.CurrCd,
-            //                                    contract.Amount,
-            //                                    contract.TrnDate,
-            //                                    contract.TrnType,
-            //                                    contract.TrnSetlExchRate,
-            //                                    contract.TrnSetlCurrCd,
-            //                                    contract.TrnSetlAmount,
-            //                                    contract.FELAmount,     //silgia 20091208 RPS00015
-            //                                    contract.FundSource,    //silgia 20091208 RPS00015
-            //                                    contract.TrnSource,     //silgia 20091208 RPS00015
-            //                                    contract.FELType));     //Venkat 20100128 RPS00015
-            //}
-            //// Venkat RPS00037 18/08/2010
-            //foreach (EBO.RPS.Library.Search.ContraLoss contract in ac.CLossTransList)
-            //{
-            //    _ContraLoss.Add(new CLossTrans(contract.itemRef,
-            //                                    contract.itemDesc,
-            //                                    contract.CurrCd,
-            //                                    contract.Amount,
-            //                                    contract.TransDate,
-            //                                    contract.trnType,
-            //                                    contract.trnSetlExchRate,
-            //                                    contract.trnSetlCurrCd,
-            //                                    contract.trnSetlAmt));
-            //}
-            ////venkat RPS00036 10/11/2010
-            //foreach (EBO.RPS.Library.Search.NOMTransactions NomTrans in ac.NOMTransList)
-            //{
-            //    _NOMTransactions.Add(new NOMTransactions(NomTrans.itemRef,
-            //                                    NomTrans.itemDesc,
-            //                                    NomTrans.CurrCd,
-            //                                    NomTrans.Amount,
-            //                                    NomTrans.TransDate,
-            //                                    NomTrans.trnType,
-            //                                    NomTrans.trnSetlExchRate,
-            //                                    NomTrans.trnSetlCurrCd,
-            //                                    NomTrans.trnSetlAmt));
-            //}
-            ////WAI GBO-SG 22/02/2013
-            //foreach (EBO.RPS.Library.Search.CAContract CAContract in ac.CAContractList)
-            //{
-            //    _caContracts.Add(new CAContract(CAContract.itemRef,
-            //                                    CAContract.itemDesc,
-            //                                    CAContract.CurrCd,
-            //                                    CAContract.Amount,
-            //                                    CAContract.ContractDate.ToString(FixedCodes.DateFormatDB),
-            //                                    CAContract.trnType,
-            //                                    CAContract.trnSetlExchRate,
-            //                                    CAContract.trnSetlCurrCd,
-            //                                    CAContract.trnSetlAmt,
-            //                                    CAContract.Qty,
-            //                                    CAContract.LotSize,
-            //                                    CAContract.IsPartialContra,
-            //                                    CAContract.trnSource
-            //                                    , CAContract.trnContractValueBase
-            //                                    , CAContract.DuedateInd
-            //                                    ));
-
-            //}
-            //if (_hasledger)
-            //{
-            //    if (!_isMultiCurrency)
-            //        _ledgerCurrencies = new string[] { FixedCodes.BaseCurrencyCode };
-            //    else
-            //    {
-            //        LookupCodeInfo subSystemInfo = LookupCodeInfo.GetSubSystemInfo(ac.SubSystemCode);
-            //        _ledgerCurrencies = subSystemInfo.Value1Array.Clone() as string[];
-            //    }
-
-            //    foreach (EBO.RPS.Library.Search.OSAmount amount in ac.OSAmountList)
-            //    {
-            //        AddDeposit(amount.CurrCd, amount.Amount);
-            //    }
+            _accsvctype = ac.AccSvcType;            
             while (_deposits.Count < 1)
                 AddDeposit();
         }
-    //}
+    
 
     /*
      * Save Items
@@ -402,18 +246,7 @@ namespace PayNowReceiptsGeneration
                 }
             }
         }
-        #endregion
-        /*New Comment*/
-        //public MiscChargeItem AddMiscChargeItem(string currcd, decimal amount, decimal gstpercent, string gsttype)
-        //{
-        //    MiscChargeItem newMisc = (MiscChargeItem)this._miscCharges.Add(new MiscChargeItem(currcd,amount,gstpercent,gsttype);
-        //    return newMisc;
-        //}
-
-        //public MiscChargeItem AddMiscChargeItem()
-        //{
-        //    return AddMiscChargeItem(FixedCodes.BaseCurrencyCode, decimal.Zero, decimal.Zero, MiscChargeItem.GSTChargeTypes.Inclusive);
-        //}
+        #endregion       
 
         public Deposit AddDeposit(string currcd, decimal amount)
         {
@@ -424,43 +257,7 @@ namespace PayNowReceiptsGeneration
         public Deposit AddDeposit()
         {
             return AddDeposit(FixedCodes.BaseCurrencyCode, decimal.Zero);
-        }
-
-        //public void AddAutoDeposit(Payment payment)
-        //{
-        //    List<string> currencies = new List<string>(this.LedgerCurrencies);
-        //    string currency = (payment.SetlOption.Length > 0) ? payment.SetlOption : payment.CurrCd;
-
-        //    if (!currencies.Contains(currency))
-        //    {
-        //        currency = FixedCodes.BaseCurrencyCode;
-        //        payment.SetlOption = FixedCodes.BaseCurrencyCode;
-        //    }
-
-        //    bool isExist = false;
-        //    foreach (Deposit deposit in this._deposits)
-        //    {
-        //        if (deposit.CurrCd.Equals(currency))
-        //        {
-        //            isExist = true;
-        //            break;
-        //        }
-        //    }
-        //    if (!isExist)
-        //    {
-        //        this._deposits.Add(new Deposit(currency, decimal.MaxValue, true));
-        //    }
-        //}
-
-        //public MiscChargeItem AddMiscCharge(decimal gstpercent)
-        //{
-        //    return this._miscentry.Add(new MiscChargeItem(gstpercent, _isGstChargeable)) as MiscChargeItem;
-        //}
-
-        //public MiscChargeItem AddMiscCharge(string code, string desc, string currcd, decimal itemamount, decimal gstpercent, MiscChargeItem.GSTChargeTypes gstchargetype)
-        //{
-        //    return this._miscentry.Add(new MiscChargeItem(code, desc, currcd, itemamount, gstpercent, gstchargetype, _isGstChargeable)) as MiscChargeItem;
-        //}
+        }        
     }
 
     [Serializable]

@@ -168,81 +168,12 @@ namespace PayNowReceiptsGeneration
                 Settlement settlement = GetNewSettlementObject();
                 if (settlement.SettleDirect(this, payment))
                     SettlementList.Add(settlement);
-            }
-
-            ////clear prev settled
-            //SettlementList.Clear();
-
-            ////Is this deposit is valid
-            ///*New comment*/
-            //if (/*IsValid &&*/ this.OutstandingAmount > 0)
-            //{
-            //    //Go through all payments
-            //    foreach (Payment payment in payments)
-            //    {
-            //        //Stop when there is no OS amount
-            //        if (this.OutstandingAmount <= decimal.Zero)
-            //            break;
-
-            //        //Is the payment valid
-            //        /*New comment*/
-            //        if (/*payment.IsValid &&*/ payment.IsSharePayment)
-            //            if (!payment.IsValidSharePayment(receipt))
-            //                continue;
-
-            //        /*New comment*/
-            //        if (/*payment.IsValid &&*/  //is valid
-            //            payment.OSAmount > 0 && //any oustanding amt to use
-            //            payment.CurrCd.Equals(this._currCd))//same currency?                        
-            //        {
-            //            Settlement settlement = GetNewSettlementObject();
-            //            if (settlement.SettleDirect(this, payment))
-            //                SettlementList.Add(settlement);
-            //        }
-            //    }
-        //}
-
-        }
-
-        /*New comment*/
-        //public virtual void SettleWithConversion(Receipt receipt, PaymentList payments, Dictionary<string, ExchRateInfo> exchRates)
-        //{
-        //    /*New comment*/
-        //    if (/*IsValid &&*/ this.OutstandingAmount > decimal.Zero)
-        //    {
-        //        foreach (Payment payment in payments)
-        //        {
-        //            //Stop when there is no OS amount
-        //            if (this.OutstandingAmount <= decimal.Zero)
-        //                break;
-        //            if (!string.IsNullOrEmpty(payment.CurrCd))
-        //            {
-        //                Settlement settlement = GetNewSettlementObject();
-        //                //WAI+20130917+RPS00055+ calculate itemos in paymen currency
-        //                settlement.SetItemOSInPaymentCurr(this, payment, exchRates);
-
-        //                /*New comment*/
-        //                if (/*payment.IsValid*/ true)
-        //                {
-
-        //                    if (/*payment.IsValid &&*/  //is valid
-        //                    payment.OSAmount > 0 && //any oustanding amt to use
-        //                    !payment.CurrCd.Equals(this._currCd) &&
-        //                    (payment.SetlOption.Equals(this._currCd) || string.IsNullOrEmpty(payment.SetlOption)))//Is Setl Option blank OR same with currency
-        //                    {
-        //                        if (settlement.SettleWithConversion(this, payment, exchRates))
-        //                            SettlementList.Add(settlement);
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
+            }  
+        }      
 
         #endregion
 
         #region Abstract Properties/Methods
-
         //Item Type
         public abstract string ItemType
         {

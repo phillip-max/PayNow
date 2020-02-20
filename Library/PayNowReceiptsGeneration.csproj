@@ -57,6 +57,12 @@
     <Reference Include="Microsoft.Practices.ObjectBuilder2, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Practices.EnterpriseLibrary.2008.4.1\lib\Microsoft.Practices.ObjectBuilder2.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PayNow.Cryptography">
+      <HintPath>..\..\..\..\Security\PayNow.Cryptography\PayNow.Cryptography\bin\Debug\PayNow.Cryptography.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -77,9 +83,9 @@
     <Compile Include="Helpers\Collection.cs" />
     <Compile Include="Helpers\Deposit.cs" />
     <Compile Include="Helpers\Enums.cs" />
-    <Compile Include="Helpers\ExchangeRateInfo.cs" />
     <Compile Include="Helpers\FixedCodes.cs" />
     <Compile Include="Helpers\Item.cs" />
+    <Compile Include="Helpers\OutBoundDAL.cs" />
     <Compile Include="Helpers\Payment.cs" />
     <Compile Include="Helpers\Program.cs" />
     <Compile Include="Helpers\Receipt.cs" />
@@ -87,6 +93,7 @@
     <Compile Include="Helpers\Util.cs" />
     <Compile Include="Helpers\WebServiceHelper.cs" />
     <Compile Include="NotificationAccount.cs" />
+    <Compile Include="PayNowAccountDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

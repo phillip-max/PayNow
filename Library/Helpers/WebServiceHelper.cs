@@ -24,12 +24,15 @@ namespace PayNowReceiptsGeneration
                 
                 SqlConnection connection = new SqlConnection(ConnectionString);
 
-                SqlCommand command = new SqlCommand("dbo.Usp_Receipt_UOBPaidAccount_Fetch", connection);
-                command.CommandType = System.Data.CommandType.StoredProcedure;
+                SqlCommand command = new SqlCommand("dbo.Usp_Receipt_UOBPaidAccount_Fetch", connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
 
                 List<NotificationAccount> notificationAccounts = new List<NotificationAccount>();
+
                 while (reader.Read())
                 {
                     NotificationAccount notificationAccount = new NotificationAccount
@@ -44,7 +47,6 @@ namespace PayNowReceiptsGeneration
                         PayNowIndicator = reader["PayNowIndicator"] != DBNull.Value ? reader["PayNowIndicator"].ToString() : string.Empty,
                         TransactionText = reader["TransactionText"] != DBNull.Value ? reader["TransactionText"].ToString() : string.Empty
                     };
-
                     notificationAccounts.Add(notificationAccount);
                 }
                 return notificationAccounts;
@@ -59,7 +61,7 @@ namespace PayNowReceiptsGeneration
         protected static SqlCommand GetInsertCommand(SqlDatabase db, string transactionText, string isCreated, 
                                                      string rejectReason, long receiptID, string receiptNo)
         { 
-            SqlCommand insertCmd = db.GetStoredProcCommand("dbo.Usp_Receipt_UpdateUOBAccoutStatus") as SqlCommand;
+            SqlCommand insertCmd = db.GetStoredProcCommand("dbo.Usp_Receipt_UpdateUOBAccountStatus") as SqlCommand;
             //Add Parameters
             insertCmd.Parameters.AddWithValue("@iStrTranTxt", transactionText);            
             insertCmd.Parameters.AddWithValue("@iStrCreated", isCreated);

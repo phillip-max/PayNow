@@ -380,36 +380,7 @@ namespace PayNowReceiptsGeneration
                 newPayment._3rdNRIC = (newPayment._is3rdPartyPayment) ? ((this._is3rdPartyPayment) ? _3rdNRIC : this._ownerClientID1 + " " + this._ownerClientID2) : string.Empty;
             }
             return newPayment;
-        }
-
-        //public Payment GetCreditLedgerPayment(Receipt receipt, EBO.RPS.Library.Search.CreditLedger crLedger, int paymentRowNo)
-        //{
-        //    Payment newPayment = new Payment();
-        //    LookupCodeInfo lkpInfo = LookupCodeInfo.GetCreditLedgerBankInfo(FixedCodes.LookUpCodePaymentTypeGBOLGR);
-
-
-        //    if (!_isSharePayment && _isRemisierPayment && receipt.Accounts.IsSingleAE)
-        //    {
-        //        _aeRefNo = receipt.Accounts.SingleAeRefNo;
-        //    }
-
-        //    newPayment._orgPayment = this;
-        //    newPayment._isCreditLedger = true;
-        //    newPayment._rowno = paymentRowNo;
-        //    newPayment.Amount = crLedger.Balance;
-        //    newPayment._usableAmount = crLedger.Balance;
-        //    newPayment._usedAmount = 0;
-        //    newPayment._creditLedgerAmount = crLedger.Balance;
-        //    newPayment._setlOption = crLedger.CurrCd;
-        //    newPayment.CurrCd = crLedger.CurrCd;
-        //    if (lkpInfo != null)
-        //    {
-        //        newPayment.PaymentType = lkpInfo.Code;
-        //        newPayment.BankCode = lkpInfo.Code;
-        //    }
-
-        //    return newPayment;
-        //}
+        }      
         #endregion
 
         #region Public Method
@@ -625,27 +596,7 @@ namespace PayNowReceiptsGeneration
                 if (prevPayment.OSAmount > 0)
                     this.Add(prevPayment.CloneForSharePayment(prevReceipt, receipt, this.Count + 1));
             }
-        }
-
-        //public decimal GetTotalCashPaymentsInSGD(System.Collections.Generic.Dictionary<string, ExchRateInfo> exchRates)
-        //{
-        //    decimal totalAmount = decimal.Zero;
-        //    foreach (Payment p in this)
-        //        if (p.IsValid && p.PaymentType.Equals(FixedCodes.LookUpCodePaymentTypeCash) && !p.IsSharePayment)
-        //        {
-        //            if (p.CurrCd.Equals(FixedCodes.BaseCurrencyCode))
-        //                totalAmount += p.Amount;
-        //            else
-        //                totalAmount += p.Amount * exchRates[p.CurrCd].BaseRateHigh;
-        //        }
-        //    return totalAmount;
-        //}
-
-        //public void AddCreditLegers(Receipt receipt, EBO.RPS.Library.Search.CreditLedger crLedger)
-        //{
-        //    Payment payment = new Payment();
-        //    this.Add(payment.GetCreditLedgerPayment(receipt, crLedger, this.Count + 1));
-        //}
+        }        
 
         #region Validation
         [SelfValidation]

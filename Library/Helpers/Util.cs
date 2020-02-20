@@ -31,8 +31,7 @@ namespace PayNowReceiptsGeneration
                 }
             }      
 
-            string NewAccNo = accNo;
-
+            string NewAccNo = accNo.Trim();
             if (accNo.Length < 7)
             {
                 NewAccNo = accNo.PadLeft(7, '0');

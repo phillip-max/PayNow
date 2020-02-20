@@ -162,28 +162,7 @@ namespace PayNowReceiptsGeneration
         public virtual bool SettleDirect(Item item, Payment payment)
         {
             _setlAmount = payment.Amount;
-            _usedPaymentAmount = payment.Amount;
-            //if (item.CurrCd.Equals(payment.CurrCd) && payment.OSAmount > 0M)
-            //{
-            //    _linkPayment = payment;
-            //    _paymentCurrCd = payment.CurrCd;
-
-            //    decimal itemOSAmount = item.OutstandingAmount;
-            //    decimal paymentOSAmount = payment.OSAmount;
-
-            //    //Payment's OS is more than item amount
-            //    if (itemOSAmount < paymentOSAmount)
-            //    {
-            //        _setlAmount = _usedPaymentAmount = itemOSAmount;
-            //        payment.UsedAmount += _usedPaymentAmount;
-            //    }
-            //    //Payment's OS is less than or equal to item amount
-            //    else
-            //    {
-            //        _setlAmount = _usedPaymentAmount = paymentOSAmount;
-            //        payment.UsedAmount = payment.UsableAmount;
-            //    }
-            //}
+            _usedPaymentAmount = payment.Amount;            
             return (_setlAmount > 0);
            
         }

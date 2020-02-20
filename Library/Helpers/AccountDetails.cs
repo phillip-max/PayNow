@@ -11,11 +11,7 @@ using System.Linq;
 namespace PayNowReceiptsGeneration
 {
     public class AccountDetails
-    {
-        //AccNo,ClientName,ClientID,ClientType,ClientTypecDesc,AccServiceType,AccServiceTypecDesc,AccType,AccTypecDesc,ClientRefNo1,ClientRefNo2,
-        //JointAcName,AddressRefNo,AeRefNo,AeCd,AeName,AeFirmId,StatusInd,StatusBy,StatusDate,AltAeRefNo,GSASubAccNo,AccNoCreationDate,EmailRefNo,
-        //CDSAccNo,KlseAccNo,W8BenSerialNo,W8SubDate,Gst,SpelCd,MultiCurrency
-
+    {   
         public string AccountNo { get; set; }
         public string ClientName { get; set; }
 
@@ -94,14 +90,14 @@ namespace PayNowReceiptsGeneration
                     if (!PiggyAccountServices.Contains(notiAcc.AccountServiceType))
                     {
                        clientAccountInfo = cOREInfo.GetAccountMasterInfo(38, "ACCNO",
-                                            new string[] { notiAcc.AccountNumber },
-                                            new string[] { notiAcc.AccountNumber });
+                                            new string[] { notiAcc.AccountNumber.Trim() },
+                                            new string[] { notiAcc.AccountNumber.Trim() });
                     }
                     else 
                     {
                         clientAccountInfo = cOREInfo.GetAccountMasterInfo(1, notiAcc.AccountServiceType.Trim(),
-                                            new string[] { notiAcc.AccountNumber },
-                                            new string[] { notiAcc.AccountNumber });
+                                            new string[] { notiAcc.AccountNumber.Trim() },
+                                            new string[] { notiAcc.AccountNumber.Trim()});
 
                     }
                     if (!this.ValidateClientAccount(clientAccountInfo,  NoNEquityAccountServices, notiAcc.AccountServiceType))

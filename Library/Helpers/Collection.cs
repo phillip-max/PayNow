@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
-//using Microsoft.Practices.EnterpriseLibrary.Validation;
 
 namespace Simple
 {
@@ -43,21 +42,6 @@ namespace Simple
         {
             get
             {   
-                //ValidationResults _validationResults = null;
-                //Validator v = ValidationFactory.CreateValidator(this.GetType());
-                //_validationResults = v.Validate(this);
-
-                //if (_validationResults.IsValid)
-                //{
-                //    foreach (T item in this)
-                //    {
-                //        if (!item.IsValid)
-                //            return false;
-                //    }
-                //}
-                //else
-                //    return false;
-
                 return true;
             }
         }
